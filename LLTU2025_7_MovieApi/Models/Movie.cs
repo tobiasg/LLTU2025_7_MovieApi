@@ -17,5 +17,6 @@ public class Movie
     
     public Genre Genre { get; set; }
 
+    public MovieDetails? Details { get; set; }
     public ICollection<Review> Reviews { get; set; } = [];
 }
