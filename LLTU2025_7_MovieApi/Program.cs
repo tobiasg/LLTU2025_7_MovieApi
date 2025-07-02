@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using LLTU2025_7_MovieApi.Data;
+using LLTU2025_7_MovieApi.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +16,8 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+
+    await app.SeedDataAsync();
 
     app.UseSwaggerUI(options =>
     {
