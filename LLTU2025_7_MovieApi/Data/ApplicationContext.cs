@@ -15,5 +15,10 @@ namespace LLTU2025_7_MovieApi.Data
         }
 
         public DbSet<Movie> Movies { get; set; } = default!;
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }
