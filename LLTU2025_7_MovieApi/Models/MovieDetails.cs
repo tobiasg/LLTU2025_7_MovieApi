@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using LLTU2025_7_MovieApi.Models.DTO;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
+using System.ComponentModel.DataAnnotations;
 
 namespace LLTU2025_7_MovieApi.Models;
 
@@ -16,4 +18,14 @@ public class MovieDetails
 
     public int MovieId { get; set; }
     public Movie Movie { get; set; }
+
+    internal MovieDetailsDto MapToDto()
+    {
+        return new MovieDetailsDto
+        {
+            Synopsis = Synopsis,
+            Language = Language,
+            Budget = Budget
+        };
+    }
 }

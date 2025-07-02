@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using LLTU2025_7_MovieApi.Models.DTO;
+using System.ComponentModel.DataAnnotations;
 
 namespace LLTU2025_7_MovieApi.Models;
 
@@ -12,4 +13,14 @@ public class Actor
     public int BirthYear { get; set; }
 
     public ICollection<Movie> Movies { get; set; } = [];
+
+    internal ActorDto MapToDto()
+    {
+        return new ActorDto
+        {
+            Id = Id,
+            Name = Name,
+            BirthYear = BirthYear
+        };
+    }
 }

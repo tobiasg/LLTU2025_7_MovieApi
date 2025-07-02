@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using LLTU2025_7_MovieApi.Models.DTO;
+using System.ComponentModel.DataAnnotations;
 
 namespace LLTU2025_7_MovieApi.Models;
 
@@ -20,4 +21,19 @@ public class Movie
     public MovieDetails? Details { get; set; }
     public ICollection<Review> Reviews { get; set; } = [];
     public ICollection<Actor> Actors { get; set; } = [];
+
+    internal MovieDto MapToDto()
+    {
+        return new MovieDto
+        {
+            Id = Id,
+            Title = Title,
+            Year = Year,
+            Duration = Duration,
+            Genre = Genre.Name,
+            Details = Details?.MapToDto(),
+            Reviews = Reviews.Select(review => review.MapToDto()).ToList(),
+            Actors = Actors.Select(actor => actor.MapToDto()).ToList()
+        };
+    }
 }

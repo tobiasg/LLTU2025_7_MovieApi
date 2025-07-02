@@ -1,4 +1,5 @@
 ﻿using LLTU2025_7_MovieApi.Data;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
 namespace LLTU2025_7_MovieApi.Extensions;
@@ -11,7 +12,10 @@ public static class WebApplicationExtensions
         {
             var serviceProvider = scope.ServiceProvider;
             var context = serviceProvider.GetRequiredService<ApplicationContext>();
-            
+
+            await context.Database.EnsureDeletedAsync();
+            await context.Database.MigrateAsync();
+
             try
             {
                 await SeedData.InitAsync(context);

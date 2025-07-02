@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using LLTU2025_7_MovieApi.Models.DTO;
+using System.ComponentModel.DataAnnotations;
 
 namespace LLTU2025_7_MovieApi.Models;
 
@@ -15,4 +16,15 @@ public class Review
 
     public int MovieId { get; set; }
     public Movie Movie { get; set; }
+
+    internal ReviewDto MapToDto()
+    {
+        return new ReviewDto
+        {
+            Id = Id,
+            Rating = Rating,
+            Name = Name,
+            Comment = Comment
+        };
+    }
 }
