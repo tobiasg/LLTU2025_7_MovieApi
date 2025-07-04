@@ -22,5 +22,12 @@ namespace LLTU2025_7_MovieApi.Data
         {
             base.OnModelCreating(modelBuilder);
         }
+
+        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+            //var entities = ChangeTracker.Entries<EntityBase>();
+
+            return base.SaveChangesAsync(cancellationToken);
+        }
     }
 }

@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace LLTU2025_7_MovieApi.Models;
 
-public class MovieDetails
+public class MovieDetails : EntityBase
 {
     public int Id { get; set; }
 

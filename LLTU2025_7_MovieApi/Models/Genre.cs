@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace LLTU2025_7_MovieApi.Models;
 
-public class Genre
+public class Genre : EntityBase
 {
     public int Id { get; set; }
 

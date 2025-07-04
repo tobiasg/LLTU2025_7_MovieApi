@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace LLTU2025_7_MovieApi.Models;
 
-public class Review
+public class Review : EntityBase
 {
     public int Id { get; set; }
     public int Rating { get; set; }
