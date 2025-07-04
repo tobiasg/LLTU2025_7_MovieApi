@@ -30,7 +30,7 @@ public class Movie
             Title = Title,
             Year = Year,
             Duration = Duration,
-            Genre = Genre.Name,
+            Genre = Genre.MapToDto(),
             Details = Details?.MapToDto(),
             Reviews = Reviews.Select(review => review.MapToDto()).ToList(),
             Actors = Actors.Select(actor => actor.MapToDto()).ToList()
