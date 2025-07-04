@@ -23,4 +23,15 @@ public class Actor
             BirthYear = BirthYear
         };
     }
+
+    internal ActorDetailsDto MapToDetailsDto()
+    {
+        return new ActorDetailsDto
+        {
+            Id = Id,
+            Name = Name,
+            BirthYear = BirthYear,
+            Movies = Movies.Select(movie => movie.MapToDto()).ToList()
+        };
+    }
 }
