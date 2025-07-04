@@ -16,6 +16,7 @@ namespace LLTU2025_7_MovieApi.Data
 
         public DbSet<Movie> Movies { get; set; } = default!;
         public DbSet<Actor> Actors { get; set; } = default!;
+        public DbSet<Review> Reviews { get; set; } = default!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
