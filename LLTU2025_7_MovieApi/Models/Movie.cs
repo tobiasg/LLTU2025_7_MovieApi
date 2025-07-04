@@ -30,8 +30,22 @@ public class Movie
             Title = Title,
             Year = Year,
             Duration = Duration,
+            Genre = Genre.MapToDto()
+        };
+    }
+
+    internal MovieDetailsDto MapToDetailsDto()
+    {
+        return new MovieDetailsDto
+        {
+            Id = Id,
+            Title = Title,
+            Year = Year,
+            Duration = Duration,
             Genre = Genre.MapToDto(),
-            Details = Details?.MapToDto(),
+            Synopsis = Details?.Synopsis ?? string.Empty,
+            Language = Details?.Language ?? string.Empty,
+            Budget = Details?.Budget ?? 0m,
             Reviews = Reviews.Select(review => review.MapToDto()).ToList(),
             Actors = Actors.Select(actor => actor.MapToDto()).ToList()
         };

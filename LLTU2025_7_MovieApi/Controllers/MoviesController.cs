@@ -28,14 +28,27 @@ public class MoviesController : ControllerBase
         return await _context.Movies
             .AsNoTracking()
             .Include(m => m.Genre)
-            .Include(m => m.Details)
-            .Include(m => m.Reviews)
-            .Include(m => m.Actors)
             .Select(movie => movie.MapToDto()).ToListAsync();
     }
 
     [HttpGet("{id}")]
     public async Task<ActionResult<MovieDto>> GetMovie(int id)
+    {
+        var movie = await _context.Movies
+            .AsNoTracking()
+            .Include(m => m.Genre)
+            .FirstOrDefaultAsync(m => m.Id == id);
+
+        if (movie == null)
+        {
+            return NotFound();
+        }
+
+        return movie.MapToDto();
+    }
+
+    [HttpGet("{id}/details")]
+    public async Task<ActionResult<MovieDetailsDto>> GetMovieDetails(int id)
     {
         var movie = await _context.Movies
             .AsNoTracking()
@@ -50,7 +63,7 @@ public class MoviesController : ControllerBase
             return NotFound();
         }
 
-        return movie.MapToDto();
+        return movie.MapToDetailsDto();
     }
 
     [HttpPut("{id}")]
