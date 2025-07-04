@@ -25,7 +25,19 @@ namespace LLTU2025_7_MovieApi.Data
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
-            //var entities = ChangeTracker.Entries<EntityBase>();
+            ChangeTracker.DetectChanges();
+
+            foreach (var entry in ChangeTracker.Entries<EntityBase>().Where(entity => entity.State == EntityState.Modified))
+            {
+                entry.Property("UpdatedAt").CurrentValue = DateTimeOffset.UtcNow;
+            }
+
+            foreach (var entry in ChangeTracker.Entries<EntityBase>().Where(entity => entity.State == EntityState.Added))
+            {
+                entry.Property("CreatedAt").CurrentValue = DateTimeOffset.UtcNow;
+                entry.Property("UpdatedAt").CurrentValue = DateTimeOffset.UtcNow;
+            }
+
 
             return base.SaveChangesAsync(cancellationToken);
         }
