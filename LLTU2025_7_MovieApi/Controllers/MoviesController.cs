@@ -1,13 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using LLTU2025_7_MovieApi.Data;
+using LLTU2025_7_MovieApi.Models;
+using LLTU2025_7_MovieApi.Models.DTO;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using LLTU2025_7_MovieApi.Data;
-using LLTU2025_7_MovieApi.Models;
-using LLTU2025_7_MovieApi.Models.DTO;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace LLTU2025_7_MovieApi.Controllers;
 
@@ -23,12 +24,19 @@ public class MoviesController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<MovieDto>>> GetMovies()
+    public async Task<ActionResult<IEnumerable<MovieDto>>> GetMovies([FromQuery] int? year)
     {
-        return await _context.Movies
+        var movies = _context.Movies
             .AsNoTracking()
             .Include(m => m.Genre)
-            .Select(movie => movie.MapToDto()).ToListAsync();
+            .AsQueryable();
+
+        if (year.HasValue)
+        {
+            movies = movies.Where(movie => movie.Year == year.Value);
+        }
+
+        return await movies.Select(movie => movie.MapToDto()).ToListAsync();
     }
 
     [HttpGet("{id}")]
@@ -52,18 +60,42 @@ public class MoviesController : ControllerBase
     {
         var movie = await _context.Movies
             .AsNoTracking()
-            .Include(m => m.Genre)
-            .Include(m => m.Details)
-            .Include(m => m.Reviews)
-            .Include(m => m.Actors)
-            .FirstOrDefaultAsync(m => m.Id == id);
+            .Where(movie => movie.Id == id)
+            .Select(movie => new MovieDetailsDto
+            {
+                Id = movie.Id,
+                Title = movie.Title,
+                Year = movie.Year,
+                Duration = movie.Duration,
+                Genre = new GenreDto
+                {
+                    Id = movie.Genre.Id,
+                    Name = movie.Genre.Name
+                },
+                Synopsis = movie.Details != null ? movie.Details.Synopsis : string.Empty,
+                Language = movie.Details != null ? movie.Details.Language : string.Empty,
+                Budget = movie.Details != null ? movie.Details.Budget : 0m,
+                Reviews = movie.Reviews.Select(review => new ReviewDto
+                {
+                    Id = review.Id,
+                    Name = review.Name,
+                    Rating = review.Rating,
+                    Comment = review.Comment
+                }).ToList(),
+                Actors = movie.Actors.Select(actor => new ActorDto
+                {
+                    Id = actor.Id,
+                    Name = actor.Name
+                }).ToList()
+            })
+        .FirstOrDefaultAsync();
 
         if (movie == null)
         {
             return NotFound();
         }
 
-        return movie.MapToDetailsDto();
+        return movie;
     }
 
     [HttpPut("{id}")]
