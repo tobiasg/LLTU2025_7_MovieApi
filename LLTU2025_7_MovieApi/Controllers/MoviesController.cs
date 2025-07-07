@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace LLTU2025_7_MovieApi.Controllers;
 
-[Route("[controller]")]
+[Route("movies")]
 [ApiController]
 public class MoviesController : ControllerBase
 {
