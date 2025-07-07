@@ -31,7 +31,7 @@ public class ActorsController : ControllerBase
         var actor = await _context.Actors
             .AsNoTracking()
             .Include(a => a.Movies)
-            .ThenInclude(m => m.Genre)
+            .ThenInclude(m => m.Genres)
             .FirstOrDefaultAsync(a => a.Id == id);
 
         if (actor == null)

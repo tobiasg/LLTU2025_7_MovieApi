@@ -6,5 +6,5 @@ public class MovieDto
     public string Title { get; set; }
     public int Year { get; set; }
     public int Duration { get; set; }
-    public GenreDto Genre { get; set; }
+    public List<GenreDto> Genres { get; set; } = [];
 }

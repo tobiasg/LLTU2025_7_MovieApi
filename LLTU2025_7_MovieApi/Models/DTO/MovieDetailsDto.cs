@@ -9,7 +9,7 @@ public class MovieDetailsDto
     public string Synopsis { get; set; } = string.Empty;
     public string Language { get; set; } = string.Empty;
     public decimal Budget { get; set; }
-    public GenreDto Genre { get; set; }
+    public List<GenreDto> Genres { get; set; } = [];
     public List<ReviewDto> Reviews { get; set; } = [];
     public List<ActorDto> Actors { get; set; } = [];
 }

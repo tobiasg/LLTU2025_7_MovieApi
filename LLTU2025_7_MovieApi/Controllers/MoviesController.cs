@@ -28,7 +28,7 @@ public class MoviesController : ControllerBase
     {
         var movies = _context.Movies
             .AsNoTracking()
-            .Include(m => m.Genre)
+            .Include(m => m.Genres)
             .AsQueryable();
 
         if (year.HasValue)
@@ -44,7 +44,7 @@ public class MoviesController : ControllerBase
     {
         var movie = await _context.Movies
             .AsNoTracking()
-            .Include(m => m.Genre)
+            .Include(m => m.Genres)
             .FirstOrDefaultAsync(m => m.Id == id);
 
         if (movie == null)
@@ -67,11 +67,11 @@ public class MoviesController : ControllerBase
                 Title = movie.Title,
                 Year = movie.Year,
                 Duration = movie.Duration,
-                Genre = new GenreDto
+                Genres = movie.Genres.Select(genre => new GenreDto
                 {
-                    Id = movie.Genre.Id,
-                    Name = movie.Genre.Name
-                },
+                    Id = genre.Id,
+                    Name = genre.Name
+                }).ToList(),
                 Synopsis = movie.Details != null ? movie.Details.Synopsis : string.Empty,
                 Language = movie.Details != null ? movie.Details.Language : string.Empty,
                 Budget = movie.Details != null ? movie.Details.Budget : 0m,
@@ -110,7 +110,6 @@ public class MoviesController : ControllerBase
         movie.Title = updateMovieDto.Title;
         movie.Year = updateMovieDto.Year;
         movie.Duration = updateMovieDto.Duration;
-        movie.GenreId = updateMovieDto.GenreId;
 
         _context.Entry(movie).State = EntityState.Modified;
 
@@ -140,13 +139,11 @@ public class MoviesController : ControllerBase
         {
             Title = createMovieDto.Title,
             Year = createMovieDto.Year,
-            Duration = createMovieDto.Duration,
-            GenreId = createMovieDto.GenreId
+            Duration = createMovieDto.Duration
         };
 
         await _context.Movies.AddAsync(movie);
         await _context.SaveChangesAsync();
-        await _context.Entry(movie).Reference(m => m.Genre).LoadAsync();
 
         return CreatedAtAction("GetMovie", new { id = movie.Id }, movie.MapToDto());
     }

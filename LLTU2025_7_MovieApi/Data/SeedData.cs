@@ -64,14 +64,20 @@ public class SeedData
 
         for (int i = 0; i < count; i++)
         {
-            var genre = genres.ToList()[faker.Random.Int(0, genres.ToList().Count - 1)];
-            movies.Add(new Movie
+            var movie = new Movie
             {
                 Title = faker.Lorem.Sentence(3, 2),
                 Year = faker.Date.Past(50).Year,
                 Duration = faker.Random.Int(0, 250),
-                Genre = genre,
-            });
+                Genres = []
+            };
+
+            foreach (var genre in faker.PickRandom(genres, faker.Random.Int(1, 5)).ToList())
+            {
+                movie.Genres.Add(genre);
+            }
+
+            movies.Add(movie);
         }
 
         return movies;

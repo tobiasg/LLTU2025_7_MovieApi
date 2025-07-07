@@ -14,11 +14,8 @@ public class Movie : EntityBase
 
     public int Duration { get; set; }
 
-    public int GenreId { get; set; }
-    
-    public Genre Genre { get; set; }
-
     public MovieDetails? Details { get; set; }
+    public ICollection<Genre> Genres { get; set; } = [];
     public ICollection<Review> Reviews { get; set; } = [];
     public ICollection<Actor> Actors { get; set; } = [];
 
@@ -30,7 +27,7 @@ public class Movie : EntityBase
             Title = Title,
             Year = Year,
             Duration = Duration,
-            Genre = Genre.MapToDto()
+            Genres = Genres.Select(genre => genre.MapToDto()).ToList(),
         };
     }
 
@@ -42,10 +39,10 @@ public class Movie : EntityBase
             Title = Title,
             Year = Year,
             Duration = Duration,
-            Genre = Genre.MapToDto(),
             Synopsis = Details?.Synopsis ?? string.Empty,
             Language = Details?.Language ?? string.Empty,
             Budget = Details?.Budget ?? 0m,
+            Genres = Genres.Select(genre => genre.MapToDto()).ToList(),
             Reviews = Reviews.Select(review => review.MapToDto()).ToList(),
             Actors = Actors.Select(actor => actor.MapToDto()).ToList()
         };

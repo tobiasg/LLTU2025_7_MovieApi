@@ -12,6 +12,4 @@ public class CreateMovieDto
     
     [Required]
     public int Duration { get; set; }
-
-    public int GenreId { get; set; }
 }
