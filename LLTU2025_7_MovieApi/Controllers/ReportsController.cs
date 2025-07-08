@@ -7,6 +7,7 @@ namespace LLTU2025_7_MovieApi.Controllers;
 
 [Route("reports")]
 [ApiController]
+[Produces("application/json")]
 public class ReportsController : ControllerBase
 {
     private readonly ApplicationContext _context;
@@ -17,6 +18,8 @@ public class ReportsController : ControllerBase
     }
 
     [HttpGet("/reports/movies/top-rated-movie")]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(MovieDetailsDto))]
     public async Task<ActionResult<MovieDetailsDto>> GetTopRatedMovie()
     {
         var topRatedMovie = await _context.Movies
@@ -48,7 +51,8 @@ public class ReportsController : ControllerBase
                 Actors = movie.Actors.Select(actor => new ActorDto
                 {
                     Id = actor.Id,
-                    Name = actor.Name
+                    Name = actor.Name,
+                    BirthYear = actor.BirthYear
                 }).ToList()
             })
             .FirstOrDefaultAsync();

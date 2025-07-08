@@ -9,6 +9,7 @@ namespace LLTU2025_7_MovieApi.Controllers;
 
 [Route("reviews")]
 [ApiController]
+[Produces("application/json")]
 public class ReviewsController : ControllerBase
 {
     private readonly ApplicationContext _context;
@@ -19,6 +20,7 @@ public class ReviewsController : ControllerBase
     }
 
     [HttpGet("/movies/{movieId}/reviews")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<ReviewDto>))]
     public async Task<ActionResult<IEnumerable<ReviewDto>>> GetReviews(int movieId)
     {
         return await _context.Reviews
@@ -29,6 +31,7 @@ public class ReviewsController : ControllerBase
     }
 
     [HttpPost("/movies/{movieId}/reviews")]
+    [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(ReviewDto))]
     public async Task<ActionResult<ReviewDto>> CreateReview(int movieId, CreateReviewDto createReviewDto)
     {
         var review = new Review
@@ -47,6 +50,7 @@ public class ReviewsController : ControllerBase
     }
 
     [HttpDelete("/reviews/{reviewId}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<IActionResult> DeleteReview(int reviewId)
     {
         var review = await _context.Reviews.FindAsync(reviewId);

@@ -14,6 +14,7 @@ namespace LLTU2025_7_MovieApi.Controllers;
 
 [Route("movies")]
 [ApiController]
+[Produces("application/json")]
 public class MoviesController : ControllerBase
 {
     private readonly ApplicationContext _context;
@@ -24,6 +25,7 @@ public class MoviesController : ControllerBase
     }
 
     [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<MovieDto>))]
     public async Task<ActionResult<IEnumerable<MovieDto>>> GetMovies([FromQuery] int? year)
     {
         var movies = _context.Movies
@@ -41,6 +43,8 @@ public class MoviesController : ControllerBase
     }
 
     [HttpGet("{id}")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(MovieDto))]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<MovieDto>> GetMovie(int id)
     {
         var movie = await _context.Movies
@@ -58,6 +62,8 @@ public class MoviesController : ControllerBase
     }
 
     [HttpGet("{id}/details")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(MovieDetailsDto))]
+     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<MovieDetailsDto>> GetMovieDetails(int id)
     {
         var movie = await _context.Movies
@@ -88,7 +94,8 @@ public class MoviesController : ControllerBase
                 Actors = movie.Actors.Select(actor => new ActorDto
                 {
                     Id = actor.Id,
-                    Name = actor.Name
+                    Name = actor.Name,
+                    BirthYear = actor.BirthYear,
                 }).ToList()
             })
         .FirstOrDefaultAsync();
