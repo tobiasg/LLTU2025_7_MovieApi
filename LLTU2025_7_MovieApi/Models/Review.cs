@@ -6,7 +6,9 @@ namespace LLTU2025_7_MovieApi.Models;
 public class Review : EntityBase
 {
     public int Id { get; set; }
-    public int Rating { get; set; }
+
+    [Range(1.0, 5.0)]
+    public double Rating { get; set; }
 
     [Required]
     public string Name { get; set; } = string.Empty;

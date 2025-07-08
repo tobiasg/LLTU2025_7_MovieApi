@@ -136,7 +136,7 @@ public class SeedData
             {
                 reviews.Add(new Review
                 {
-                    Rating = faker.Random.Int(1, 5),
+                    Rating = Math.Round(faker.Random.Double(1, 5), 1),
                     Name = faker.Name.FullName(),
                     Comment = faker.Lorem.Sentence(10, 5),
                     Movie = movie,

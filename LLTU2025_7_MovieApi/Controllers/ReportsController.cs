@@ -29,7 +29,7 @@ public class ReportsController : ControllerBase
                 Title = movie.Title,
                 Year = movie.Year,
                 Duration = movie.Duration,
-                AverageRating = movie.Reviews.Count > 0 ? movie.Reviews.Select(review => review.Rating).Average() : 0,
+                AverageRating = movie.Reviews.Count > 0 ? Math.Round(movie.Reviews.Select(review => review.Rating).Average(), 1) : 0,
                 Genres = movie.Genres.Select(genre => new GenreDto
                 {
                     Id = genre.Id,
