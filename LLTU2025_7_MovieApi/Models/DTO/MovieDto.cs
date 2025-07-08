@@ -6,5 +6,6 @@ public class MovieDto
     public string Title { get; set; }
     public int Year { get; set; }
     public int Duration { get; set; }
+    public double AverageRating { get; set; }
     public List<GenreDto> Genres { get; set; } = [];
 }

@@ -6,6 +6,7 @@ public class MovieDetailsDto
     public string Title { get; set; }
     public int Year { get; set; }
     public int Duration { get; set; }
+    public double AverageRating { get; set; }
     public string Synopsis { get; set; } = string.Empty;
     public string Language { get; set; } = string.Empty;
     public decimal Budget { get; set; }

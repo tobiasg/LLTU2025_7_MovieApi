@@ -27,6 +27,7 @@ public class Movie : EntityBase
             Title = Title,
             Year = Year,
             Duration = Duration,
+            AverageRating = Reviews.Count > 0 ? Reviews.Select(review => review.Rating).Average() : 0,
             Genres = Genres.Select(genre => genre.MapToDto()).ToList(),
         };
     }
@@ -39,6 +40,7 @@ public class Movie : EntityBase
             Title = Title,
             Year = Year,
             Duration = Duration,
+            AverageRating = Reviews.Count > 0 ? Reviews.Select(review => review.Rating).Average() : 0,
             Synopsis = Details?.Synopsis ?? string.Empty,
             Language = Details?.Language ?? string.Empty,
             Budget = Details?.Budget ?? 0m,
