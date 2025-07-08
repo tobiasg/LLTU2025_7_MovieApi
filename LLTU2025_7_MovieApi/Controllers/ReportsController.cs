@@ -21,7 +21,8 @@ public class ReportsController : ControllerBase
     {
         var topRatedMovie = await _context.Movies
             .AsNoTracking()
-            .OrderByDescending(movie => movie.Reviews.Count())
+            .Where(movie => movie.Reviews.Any())
+            .OrderByDescending(movie => movie.Reviews.Select(review => review.Rating).Average())
             .Select(movie => new MovieDetailsDto
             {
                 Id = movie.Id,
