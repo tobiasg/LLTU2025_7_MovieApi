@@ -97,7 +97,7 @@ public class SeedData
             };
 
 
-            foreach (var movie in faker.PickRandom(movies, faker.Random.Int(2, 10)).ToList())
+            foreach (var movie in faker.PickRandom(movies, faker.Random.Int(1, 10)).ToList())
             {
                 actor.Movies.Add(movie);
             }

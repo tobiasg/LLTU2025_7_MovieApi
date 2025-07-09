@@ -59,4 +59,26 @@ public class ReportsController : ControllerBase
 
         return topRatedMovie == null ? NotFound() : Ok(topRatedMovie);
     }
+
+    [HttpGet("actors/most-active")]
+    public async Task<IActionResult> GetMostActiveActors()
+    {
+        return Ok(_context.Movies
+            .SelectMany(movie => movie.Actors)
+            .GroupBy(actor => actor.Id)
+            .Select(actor => new
+            {
+                Actor = actor.First(),
+                Movies = actor.Count()
+            })
+            .OrderByDescending(order => order.Movies)
+            .Take(100)
+            .AsEnumerable()
+            .Select(group => new
+            {
+                Actor = group.Actor.MapToDto(),
+                group.Movies
+            })
+            .ToList());
+    }
 }
